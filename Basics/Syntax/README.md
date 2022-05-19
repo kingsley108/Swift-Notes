@@ -84,8 +84,10 @@ Markdown comments start with /\*\* and end with \*/:
 
 func myGreatFunction() {}
 ```
-This is how it looks in swift after adding the documentation keyword
+This is how it looks in swift after adding the documentation keyword.
+
 <img width="251" alt="Screenshot 2022-05-19 at 17 26 27" src="https://user-images.githubusercontent.com/71823674/169350668-fe68da66-e02e-4189-a5f0-d47618a3769e.png">
+
 
 
 But we could also represent a Character as a struct like this.
