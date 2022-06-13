@@ -69,7 +69,7 @@ print(b) //prints 2
 
 ## Documentation Keywords
 
-Swift lets you add keyowrds that get displayed in the quick help pane which can be brought up by pressing **Alt+Cmd+2** while coding, these code comments helps document the return type of the function you wrote any parameters and also general docuumentation.
+Swift lets you add keywords that get displayed in the quick help pane which can be brought up by pressing **Alt+Cmd+2** while coding, these code comments helps document the return type of the function you wrote with parameters and also general docuumentation.
 Markdown comments start with /\*\* and end with \*/: 
 
 ```swift
@@ -87,3 +87,4 @@ func myGreatFunction() {}
 This is how it looks in swift after adding the documentation keywords.
 
 <img width="1503" alt="Screenshot 2022-05-19 at 17 28 02" src="https://user-images.githubusercontent.com/71823674/169350941-cedbb4a6-ac85-4080-bc14-b3e3e67e89f0.png">
+
