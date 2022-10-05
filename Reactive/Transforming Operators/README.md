@@ -1,103 +1,96 @@
 # Transforming Opertors
 
-## Need For Subjects
+## Map
 
-There is a need for subjects as Observables are read only so you can only subscribe to them, whereas there is a need for a way to add events unto an observable during runtime to emit to observers. There are different types of subjects and relays which are subject wrappers.
-
-## Publish Subjects
-
-Published subject are good when you want observers to be notified of new events as **old events won't be cosumed by the observer** as shown in the code below. However **Errors and Completed events which will be relayed to future subscriptions**.
+Map is an operator that transforms the elements emitted by an observable by applyingg a function to it, compactMap is the same but filters out nil values.
 
 ```swift
-let subject = PublishSubject<String>()
-let bag = DisposeBag()
+let behaviourSubject: BehaviorSubject<Int?> = BehaviorSubject(value: 3)
 
-//This does not get consumed by an observer/subscriber as there is no observer yet.
-subject.onNext("Hello")
-
-subject.subscribe(onNext: { string in
-    print("\(string)")
+behaviourSubject
+    .compactMap { $0 } //compactMap filters out nil
+    .enumerated().map({ index, number in
+    return "\(index)\(number)" 
+}).subscribe(onNext: { no in
+    print("\(no)")
 })
 
-subject.onNext("Hello again") //This gets consumed as there is now an observer.
+behaviourSubject.onNext(2)
+behaviourSubject.onNext(7)
+behaviourSubject.onNext(1)
+behaviourSubject.onNext(nil)
+behaviourSubject.onNext(nil)
+behaviourSubject.onNext(189)
 
-subject.onCompleted()
-//NOTE: once completed or errored out, subjects re-emit these events to future subscribers
-
-subject.subscribe({
-    print("second print, the event is now \($0.element)") 
-}).disposed(by: bag )
-//This subscriber consumes the completed event evn though it was an old event.
+//Prints --------------
+//03
+//12
+//27
+//31
+//4189
 ```
 
-## Beheaviour Subject
+## FlatMap
 
-Behaviour subject are like publush subject but they relay the last next event to the observer/subscriber
+FlatMap is used to reach to get an observable value of an observable, with flat map you can also flatten observables that do asynchronous work and wait for the observables to complete and only then continue the chaning.
 
 ```swift
-let behaviourSubject = BehaviorSubject(value: "Initial")
+let disposeBag = DisposeBag()
+let laura = BehaviorSubject(value: 80)
+let charlotte =  BehaviorSubject(value: 90)
+let student = PublishSubject<BehaviorSubject<Int>>()
 
-behaviourSubject.subscribe(onNext: { val in
-    print(val) //This inital value is consumed by the subject.
-}).disposed(by: bag)
+student
+.flatMap {
+        $0
+    }
+    .subscribe(onNext: {
+        print("The score is \($0)")
+    })
+    .disposed(by: disposeBag)
 
-behaviourSubject.onNext("new after Inital")
+student.onNext(laura)
+student.onNext(charlotte)
+laura.onNext(20)
+
+//Prints --------------------------------------------------
+//The score is 80
+//The score is 90
+//The score is 20
+
+//As you can see here changing either the source observable or the target observable will run our subscribe closure.
 ```
 
-## Replay Subject
-
-Replay subject will cache elements that are emitted up to a specified size, and then replay to new subscribers.The buffer size takes up memory so it is not a good idea to set a large buffer size.
+## FlatMap Latest
 
 ```swift
-let replaySubject = ReplaySubject<String>.create(bufferSize: 2)
-replaySubject.onNext("first")
-replaySubject.onNext("second")
-replaySubject.onNext("third")
+let laura1 = BehaviorSubject(value: 80)
+let charlotte1 =  BehaviorSubject(value: 90)
+let student1 = PublishSubject<BehaviorSubject<Int>>()
 
-replaySubject.subscribe(onNext: { message in
-    print("1) \(message)")
-})
-//Things printed are the last two
-//1) second
-//1) third
-//2) second
-//2 third
+student1
+    .flatMapLatest {
+        $0
+    }
+    .subscribe(onNext: {
+        print("The score is \($0)")
+    })
+    .disposed(by: disposeBag)
 
-replaySubject.subscribe(onNext: { message in
-    print("2) \(message)")
-})
+student1.onNext(laura1)
+student1.onNext(charlotte1)
+laura1.onNext(20)
 
-replaySubject.onNext("fourth")
-//This outputs
-//1) fourth
-//2) fourth
-//second and third are not printed out because they have already been consumed by the observer
+//Prints --------------------------------------------------
+//The score is 80
+//The score is 90
+
+//Does not print out laura1 changes because flatMapLatest gets the value of the latest observable wrapped in the source observable, in which case the latest one is now charlotte1.
 ```
 
-## Relays
+## Share vs Share(replay:)
 
-A Relay wraps a subject while maintaining it's replay behaviour, the types of relay are publish relay and behaviour relay. Relays also only accept a value and do not emit errors or completed events.
+Sharing subscriptions as each new subscription made creates a new stream and using additional resources, causing additional network requests to be fired. Each subscriber will then get the same stream and no additional computation will be used when share() operator is used.
 
-```swift
-let publishRelay = PublishRelay<String>()
-publishRelay.accept("Hello")
+The difference between the standard sharing and sharing with replay is that the operator keeps the last replay element, and this is useful in case the observable completes, if the observable completes then any new observer subscribing to that observable will create a new subscription and create a new stream using additional resources. Whereas by keepig a buffer of the last value the replay operator will simply replay the last value to new subscribers so no new stream will have to be used.
 
-publishRelay.subscribe(onNext: { message in
-    print("Message")
-})
-
-publishRelay.accept("1")
-
-//Only 1 is printed out
-//They act exactly like publish subject in that the observer only consumes events that are emitted after its been subscribed to.
-
-
-//Behaviour relay behave the same as their behaviour subject counterpart however they also have a way to get the current value.
-let behaviourRelay = BehaviorRelay(value: "initial")
-behaviourRelay.subscribe(onNext: { val in
-    print(val)
-})
-
-behaviourRelay.accept("Hello")
-print(behaviourRelay.value) //This gets the current value of the bheaviour relay
-```
