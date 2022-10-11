@@ -90,7 +90,7 @@ laura1.onNext(20)
 
 ## Share vs Share(replay:)
 
-Sharing subscriptions as each new subscription made creates a new stream and using additional resources, causing additional network requests to be fired. Each subscriber will then get the same stream and no additional computation will be used when share() operator is used.
+Sharing subscriptions as each new subscription made creates a new stream and using additional resources, causing additional network requests to be fired. Each subscriber will get the same stream and no additional computation will be used when share(replay:) operator is used.
 
 The difference between the standard sharing and sharing with replay is that the operator keeps the last replay element, and this is useful in case the observable completes, if the observable completes then any new observer subscribing to that observable will create a new subscription and create a new stream using additional resources. Whereas by keepig a buffer of the last value the replay operator will simply replay the last value to new subscribers so no new stream will have to be used.
 
