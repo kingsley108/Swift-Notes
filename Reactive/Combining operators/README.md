@@ -24,7 +24,7 @@ observable.startWith(1).subscribe(onNext: { numbers in
 
 It subscribes to the elements of the first sequence, emits out the elements of the first sequence and then needs to be completed before the second one is subscribed and then also completed.
 
-![concat sequence stream-line](https://assets.alexandria.raywenderlich.com/books/rxs/images/fd1e4309638dd5fdeea664ce6ba0ef0cca4a34775c87b4fe09e5dd7660c8c174/original.png)
+![concat sequence stream-line](https://user-images.githubusercontent.com/71823674/196695958-9be461eb-7c0d-47a6-81e6-1bcb5ac66041.png)
 
 ```swift
 let first = PublishSubject<String>()
@@ -85,7 +85,7 @@ Basically flatMap however it flattens and runs the observables in order.
 
 Merge operator subscribes to each sequence and emit elements as soon as they arrive , there is no order as in concat. Merge completes after all sequences have completed, and if any sequnce errors out, the observable is terminated and the error is relayed.
 
-![merge-illustartion](https://assets.alexandria.raywenderlich.com/books/rxs/images/296a1b2815d834c912d4a212c2ba46ad8c25fcd4b5fc15c9e61051188b7ec59b/original.png)
+![image](https://user-images.githubusercontent.com/71823674/196695404-1a481048-ba8a-4745-8a12-a27b1e19ae8d.png)
 
 ```swift
  enum MyError: Error {
@@ -122,7 +122,7 @@ left.onError(MyError.unexpectedError)
 
 This operator combines the latest from the sequences and emits them together, anytime an innerSequence emits a value it calls the closure, in the closure you have acess to the latest values of the inner sequences. The closure also only runs when both observables have emitted a value, below we used startWith so they both have an initial value, so the closure can be ran right at the start.
 
-![combineLatest-illustartion](https://assets.alexandria.raywenderlich.com/books/rxs/images/4c5d5b80b7373109cf71d4e658ea86c915551af556a1d8eb08fd9a907a0ecee1/original.png)
+![combineLatest-illustartion](https://user-images.githubusercontent.com/71823674/196696095-2a8994a0-fbfc-460f-9f80-267e32aa210d.png)
 
 ```swift
 let sub1 = PublishSubject<String>()
@@ -155,7 +155,7 @@ sub1.onCompleted()
 
 This operator runs a closure to the combination of the items emitted by the inner sequences, the operator only runs when the two items emitted by the inner sequences are new, this is unlike combineLatest which is ran when any sequence have a new value.
 
-![Zip](https://assets.alexandria.raywenderlich.com/books/rxs/images/0099972362c9e2e1eea14379e5abc7976e1a854d06dadbdde6dda43792c06b68/original.png)
+![Zip](https://user-images.githubusercontent.com/71823674/196696175-fb350d56-9322-48df-a092-f43efa38e5dc.png)
 
 ```swift
 enum Weather {
@@ -188,7 +188,7 @@ weather.onNext(.sunny)
 
 This gets the currrent or latest value from an observable everytime a trigger occurs.
 
-![withLatestFrom](https://assets.alexandria.raywenderlich.com/books/rxs/images/534c3828afe51c21e3aa53043280dfd5c4447d8200b8ccf08f402195703a6400/original.png)
+![withLatestFrom](https://user-images.githubusercontent.com/71823674/196696304-70a6bfb3-b3ef-4fc0-b092-29d8b7ad04e5.png)
 
 ```swift
 let button = PublishSubject<String>()
@@ -211,7 +211,7 @@ button.onNext("Tapped")
 
 ### Sample
 
-![Sample](https://assets.alexandria.raywenderlich.com/books/rxs/images/84f4e666bd144d1afa298c10e1d2671e13ad63b894e16901db8e5d3682d1ffb0/original.png)
+![Sample](https://user-images.githubusercontent.com/71823674/196696373-9ad43a02-f66e-48ed-9f8c-254ac5bd6ef4.png)
 
 Sample emits the most recent element emitted by an observable when a trigger occurs. This is similar to with latestFrom however sample takes a trigger observable as parameter wheras withLatestFrom takes the data. Also if the value emitted by the source observable doesn't change but the target observable keeps on emitting then sample will not emit anything, this can be seen in our print results below.
 
@@ -235,7 +235,7 @@ button1.onNext("Tapped") //This doesn't trigger sample to emits textField1 value
 
 The source observable is an observable that emits other observables it subscribes to the observable it emits whereas unsunscribing from the previous it took in, that's where the switching comes from.
 
-![switchLatest](https://assets.alexandria.raywenderlich.com/books/rxs/images/3ad87d80bcd9399118d1811c6967f754bb0b39c871788ad921ae4efbfba81905/original.png)
+![switchLatest](https://user-images.githubusercontent.com/71823674/196696874-ccfdf2e0-a7d9-4f5f-b24c-55ff5a72f704.png)
 
 ```swift
 typealias Emitter = PublishSubject<String>
@@ -263,7 +263,7 @@ two.onNext("Observable two pleaseee") //the observer only subscribed to this bec
 
 Reduce combines elements in a sequence, first ay is a shorthand way of writing elements, second one is the clearer way.
 
-![reduce](https://assets.alexandria.raywenderlich.com/books/rxs/images/377db6afbe7ddf9b4b1ef9d9d1e123d609136488b3e4c5c43fdd256dc79a4593/original.png)
+![reduce](https://user-images.githubusercontent.com/71823674/196696989-b4605f21-33fe-4587-af94-04e7224f410a.png)
 
 ```swift
 let subject1 = Observable.of(2,3,5,6)
@@ -284,9 +284,11 @@ subject1.reduce(0) { summary, newValue in
 
 ## Scan
 
-![scan](https://assets.alexandria.raywenderlich.com/books/rxs/images/4a3986ed4746364920822abcbed4abdced8930da9c3c82419bbba05e5b67a281/original.png)
+![scan](https://user-images.githubusercontent.com/71823674/196697056-80d4710d-a1f8-4fcc-abde-669e55a3b949.png)
 
 ```swift
+let subject1 = Observable.of(2,3,5,6)
+
 subject1.scan(0) { summary, newValue in
   return summary + newValue
 }.subscribe(onNext: { val in

@@ -6,10 +6,10 @@ An intrinsic content size is the size a view naturally takes up based on it's co
 
 Content Hugging Priorties helps AutoLayout decide what views to stretch past it's intrinsic size, a view with an higher Content Hugging priorities will not want to be stretched/grow and will hug the views bound to the content. The example is shown below.
 
-https://miro.medium.com/max/944/1*fvHZ_dT1fEv2gSmL9WYXug.png
+![horizontal content hugging priority](https://user-images.githubusercontent.com/71823674/196699536-c4f54c90-f080-418a-a119-39a30fa40807.png)
 horizontal content hugging priority: green(251)- blue(251)
 
-https://miro.medium.com/max/950/1*0COR1RWl5VhrpuCoIQ_MlA.png
+![horizontal content hugging priority](https://user-images.githubusercontent.com/71823674/196699613-5aaa7f27-cbc9-4a00-8d5f-7b6738832199.png)
 horizontal content hugging priority: green(250)- blue(251)
 
 Compression Resistance Priorities helps autolayout decide what views wills shrink smaller than the intrinsic content size. A higher compression resistance will fight harder from being shrunk whilst a lower one will be shrunk.
@@ -21,32 +21,36 @@ Compression Resistance Priorities helps autolayout decide what views wills shrin
 The Alignment propert in stackviews dictate how the views are arranged perpendicular to the stackviews axis.
 
 Horizontal stack view **fill** alignment makes the views take up all of the vertical space inside the stack view as shown below. The vertical space will be decided by the view with the largest height or intrinsic height.
-https://assets.alexandria.raywenderlich.com/books/alt/images/a126245a5207673b9428c7a5906c076b015a985198487d6f666c8f4156f85cc5/original.png
+<img width="433" alt="image" src="https://user-images.githubusercontent.com/71823674/196699799-fe077271-1474-4aca-940f-2c19f0da1070.png">
 
 - Top Alignment is set to the top of the Stackview either using their intrinsic height or the height set.
-https://assets.alexandria.raywenderlich.com/books/alt/images/1b9de05472f2e6e822e20adbf19f0d3f3d2358e9b7758840def9dcd7e01b5c7b/original.png
+
+<img width="476" alt="image" src="https://user-images.githubusercontent.com/71823674/196700192-9e53d357-9f7c-4e68-a66c-35c8cbf00be4.png">
 
 - Bottom Alignment means the stackviews subviews are lined up at the bottom
-https://assets.alexandria.raywenderlich.com/books/alt/images/58df03c52d2ad96040a36ab4141b9e37dc87e73cb8682f2441f0b098093d85f9/original.png
+
+<img width="433" alt="image" src="https://user-images.githubusercontent.com/71823674/196700522-89175e6a-eb0e-4409-b476-a99968a175dd.png">
+
+<img width="434" alt="image" src="https://user-images.githubusercontent.com/71823674/196700776-cf4aa2c3-3238-4673-9c3b-5c9a3e3fbc0b.png">
 
  Vertical Stack View Alignment looks like this.
  
 - **fill** Alignment looks like this
- https://assets.alexandria.raywenderlich.com/books/alt/images/08221444e3d202b5497b5cb99bf9bd49160d18763ac5e4a035b0b84f886593f6/original.png
+ <img width="153" alt="image" src="https://user-images.githubusercontent.com/71823674/196700909-2a11a284-c651-4f35-a500-daabb06fb7a1.png">
  
  - Leading Alignment looks like this
-https://assets.alexandria.raywenderlich.com/books/alt/images/1b01a22097cdaae06ca7a4929f57761ae1c2ab3d695dfde57a707e56d3964f71/original.png
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/71823674/196701004-ab358801-1d29-49b8-82b1-d5f0cb40272a.png">
  
  - Trailing Alignment looks like this
- https://assets.alexandria.raywenderlich.com/books/alt/images/f6c3da9d8191778c722538daf66e82cd7b564153a63ec4fabc7c66548b2c82cc/original.png
+ <img width="136" alt="image" src="https://user-images.githubusercontent.com/71823674/196701065-50a427a2-c96c-4825-b154-9bdf440f2dd9.png">
 
 ### Distrubution Property
 
 - **Fill** - this keeps the content as their intrinsic size and only stretches one of them to fill up the space, it determines which ones to stretch by which one has the lowest Content Hugging Priority (CHP).
-https://spin.atomicobject.com/wp-content/uploads/20160610170335/uistackview-fill.png
+<img width="295" alt="image" src="https://user-images.githubusercontent.com/71823674/196701262-f5e4bb16-c001-4bad-86c8-9593645c186d.png">
 
 - **Fill Equally** - in this distrubution each of the views are the same size.
-https://spin.atomicobject.com/wp-content/uploads/20160610172413/uistackview-fill-equally.png
+<img width="295" alt="image" src="https://user-images.githubusercontent.com/71823674/196701974-ad9afc60-b603-4afe-a373-01da2a20a8d3.png">
 
 - **equalSpacing** - here the stackView gives the arranged subview it's intrisic size then introduces equally-sized padding if there is extra space.
 
@@ -122,7 +126,7 @@ NSLayoutConstraint.activate([
     label.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
     ])
 ```
-https://useyourloaf.com/blog/changing-root-view-layout-margins/003.png
+![layout-margins](https://user-images.githubusercontent.com/71823674/196702067-0c6fc3e3-b169-4d25-a78b-1c9ad5b0e675.png)
 
 ### Readable Content Guide
 
