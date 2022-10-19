@@ -7,9 +7,11 @@ An intrinsic content size is the size a view naturally takes up based on it's co
 Content Hugging Priorties helps AutoLayout decide what views to stretch past it's intrinsic size, a view with an higher Content Hugging priorities will not want to be stretched/grow and will hug the views bound to the content. The example is shown below.
 
 ![horizontal content hugging priority](https://user-images.githubusercontent.com/71823674/196699536-c4f54c90-f080-418a-a119-39a30fa40807.png)
+
 horizontal content hugging priority: green(251)- blue(251)
 
 ![horizontal content hugging priority](https://user-images.githubusercontent.com/71823674/196699613-5aaa7f27-cbc9-4a00-8d5f-7b6738832199.png)
+
 horizontal content hugging priority: green(250)- blue(251)
 
 Compression Resistance Priorities helps autolayout decide what views wills shrink smaller than the intrinsic content size. A higher compression resistance will fight harder from being shrunk whilst a lower one will be shrunk.
@@ -21,6 +23,7 @@ Compression Resistance Priorities helps autolayout decide what views wills shrin
 The Alignment propert in stackviews dictate how the views are arranged perpendicular to the stackviews axis.
 
 Horizontal stack view **fill** alignment makes the views take up all of the vertical space inside the stack view as shown below. The vertical space will be decided by the view with the largest height or intrinsic height.
+
 <img width="433" alt="image" src="https://user-images.githubusercontent.com/71823674/196699799-fe077271-1474-4aca-940f-2c19f0da1070.png">
 
 - Top Alignment is set to the top of the Stackview either using their intrinsic height or the height set.
@@ -63,7 +66,7 @@ Scrollviews helps you to allow scrolling and zooming of it's contained views and
 In order to use a ScrollView in the code these steps are needed.
 
 ``` swift
-    \\1
+    //1
     view.addSubview(scrollView)
     
     //2 Set up constraints for that scrollView relative to the mainView

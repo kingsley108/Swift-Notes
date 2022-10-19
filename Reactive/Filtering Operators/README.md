@@ -20,7 +20,9 @@ events.onNext("7")
 
 //Nothing is pinted out until either error or completed.
 events.onCompleted()
-//Prints ( Hello the events has been consumed)
+
+//PRINTS IN TERMINAL ------
+//( Hello the events has been consumed)
 ```
 
 ```swift
@@ -50,7 +52,7 @@ observableEvent.skip(3).subscribe(onNext: { letter in
     print("has skipped 3 and the letter landed is \(letter)")
 })
 
-//Prints----
+//PRINTS IN TERMINAL ------
 //has skipped 3 and the letter landed is D
 //has skipped 3 and the letter landed is E
 ```
@@ -65,7 +67,7 @@ observableEvent2
         print("The number is \(number), i know it is greater than 4")
     })
 
-//Prints----
+//PRINTS IN TERMINAL ------
 //The number is 5, i know it is greater than 4
 //The number is 6, i know it is greater than 4
 //NOTE: HERE IT STOPS SKIPPING AS 6 WAS GREATER THAN 5, SO ALLOWS NEXT 2 IN, AS 6 HAS BROKEN THE SKIP WHILE.
@@ -105,7 +107,7 @@ observableEvent3
         print("\(number) is taken, should be one of these numbers 1 or 2 or 3")
     })
 
-//Prints----
+//PRINTS IN TERMINAL ------
 //1 is taken, should be one of these numbers 1 or 2 or 3
 //2 is taken, should be one of these numbers 1 or 2 or 3
 //4 is taken, should be one of these numbers 1 or 2 or 3

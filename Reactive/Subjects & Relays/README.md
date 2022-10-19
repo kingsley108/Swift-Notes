@@ -30,7 +30,7 @@ subject.subscribe({
 //This subscriber consumes the completed event evn though it was an old event.
 ```
 
-## Beheaviour Subject
+## Behaviour Subject
 
 Behaviour subject are like publush subject but they relay the last next event to the observer/subscriber
 
@@ -57,7 +57,7 @@ replaySubject.onNext("third")
 replaySubject.subscribe(onNext: { message in
     print("1) \(message)")
 })
-//Things printed are the last two
+//PRINTS IN TERMINAL ------
 //1) second
 //1) third
 //2) second
@@ -68,7 +68,8 @@ replaySubject.subscribe(onNext: { message in
 })
 
 replaySubject.onNext("fourth")
-//This outputs
+
+//PRINTS IN TERMINAL ------
 //1) fourth
 //2) fourth
 //second and third are not printed out because they have already been consumed by the observer

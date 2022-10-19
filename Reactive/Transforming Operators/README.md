@@ -22,7 +22,7 @@ behaviourSubject.onNext(nil)
 behaviourSubject.onNext(nil)
 behaviourSubject.onNext(189)
 
-//Prints --------------
+//PRINTS IN TERMINAL ------
 //03
 //12
 //27
@@ -53,7 +53,7 @@ student.onNext(laura)
 student.onNext(charlotte)
 laura.onNext(20)
 
-//Prints --------------------------------------------------
+//PRINTS IN TERMINAL ------
 //The score is 80
 //The score is 90
 //The score is 20
@@ -81,7 +81,7 @@ student1.onNext(laura1)
 student1.onNext(charlotte1)
 laura1.onNext(20)
 
-//Prints --------------------------------------------------
+//PRINTS IN TERMINAL ------
 //The score is 80
 //The score is 90
 

@@ -1,4 +1,4 @@
-# Combining Opertors
+# Combining Operators
 
 ## Concatenating Operators
 

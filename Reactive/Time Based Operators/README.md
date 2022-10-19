@@ -87,6 +87,7 @@ Delay Subscription will delay the time the subscription occurs meaning that some
 ![Delay](https://user-images.githubusercontent.com/71823674/196722629-c8e4b775-f05f-4d86-8d0a-8ce7a67ff8d6.png)
 
 DelayElement just delays the elements itself.
+
 ![Delay Element](https://user-images.githubusercontent.com/71823674/196723005-be062114-ce96-4575-b6ba-27ff30ae248a.png)
 
 ## Timers
@@ -98,7 +99,7 @@ let sourceObs = Observable<Int>.interval(.milliseconds(Int(1000.0/Double(1))), s
         print("SourceObservable interval timer has emitted: \(int)")
 })
 
-//PRINT ---
+//PRINTS IN TERMINAL ------
 //SourceObservable interval timer has emitted: 0
 //SourceObservable interval timer has emitted: 1
 //SourceObservable interval timer has emitted: 2
