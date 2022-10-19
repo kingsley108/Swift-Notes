@@ -1,4 +1,4 @@
-# Time Based Operators (Not Finished)
+# Time Based Operators
 
 ## Replay
 
@@ -44,66 +44,78 @@ let sourceObservable = Observable<Int>.create { observer in
 
 ## Buffer
 
-FlatMap is used to reach to get an observable value of an observable, with flat map you can also flatten observables that do asynchronous work and wait for the observables to complete and only then continue the chaning.
+Buffer allows you to store elements and change how they are delivered, so you can deliver elements in burst and limit how many elements you recieve in a time period.
 
 ```swift
-let disposeBag = DisposeBag()
-let laura = BehaviorSubject(value: 80)
-let charlotte =  BehaviorSubject(value: 90)
-let student = PublishSubject<BehaviorSubject<Int>>()
-
-student
-.flatMap {
-        $0
-    }
-    .subscribe(onNext: {
-        print("The score is \($0)")
+let obs = Observable.of(1,2,3,5)
+obs.buffer(timeSpan: RxTimeInterval.seconds(4), count: 2, scheduler: MainScheduler.instance)
+    .subscribe(onNext: { number in
+        print("\(number)")
     })
-    .disposed(by: disposeBag)
 
-student.onNext(laura)
-student.onNext(charlotte)
-laura.onNext(20)
-
-//Prints --------------------------------------------------
-//The score is 80
-//The score is 90
-//The score is 20
-
-//As you can see here changing either the source observable or the target observable will run our subscribe closure.
+//PRINT ---
+//[1, 2]
+//[3, 5]
+//[]
 ```
 
 ## Hot and Cold Observables
 
+In Rx some observables are **Cold** whereas some observables are **Hot**, Cold observables only start emitting elements when you subscribe to them whereas Hot observables emit items regardless of if they're subscribed to if there is no subscriber when the data is being produced, then the data is simply lost.
+
 ```swift
-let laura1 = BehaviorSubject(value: 80)
-let charlotte1 =  BehaviorSubject(value: 90)
-let student1 = PublishSubject<BehaviorSubject<Int>>()
+//Cold Observable - does not emit until subscribed to
+let observable: Observable<Int> = Observable.create { observer in
+    observer.onNext(2)
+    return Disposables.create()
+}
 
-student1
-    .flatMapLatest {
-        $0
-    }
-    .subscribe(onNext: {
-        print("The score is \($0)")
-    })
-    .disposed(by: disposeBag)
-
-student1.onNext(laura1)
-student1.onNext(charlotte1)
-laura1.onNext(20)
-
-//Prints --------------------------------------------------
-//The score is 80
-//The score is 90
-
-//Does not print out laura1 changes because flatMapLatest gets the value of the latest observable wrapped in the source observable, in which case the latest one is now charlotte1.
+//Hot Observable - emit items regardless of if subscribed to
+let hot = PublishSubject<Int>()
+hot.onNext(2) --The onNext are all 
+hot.onNext(5)
+hot.onNext(6)
+hot.subscribe(onNext:{ number in
+    
+})
 ```
 
 ## Delay vs Delay Subscription
 
-Sharing subscriptions as each new subscription made creates a new stream and using additional resources, causing additional network requests to be fired. Each subscriber will get the same stream and no additional computation will be used when share(replay:) operator is used.
+Delay Subscription will delay the time the subscription occurs meaning that some elements will be skipped for **Hot Observables Only** as Hot observables can emit elements withouth a subscription.
 
-The difference between the standard sharing and sharing with replay is that the operator keeps the last replay element, and this is useful in case the observable completes, if the observable completes then any new observer subscribing to that observable will create a new subscription and create a new stream using additional resources. Whereas by keepig a buffer of the last value the replay operator will simply replay the last value to new subscribers so no new stream will have to be used.
+![Delay](https://user-images.githubusercontent.com/71823674/196722629-c8e4b775-f05f-4d86-8d0a-8ce7a67ff8d6.png)
+
+DelayElement just delays the elements itself.
+![Delay Element](https://user-images.githubusercontent.com/71823674/196723005-be062114-ce96-4575-b6ba-27ff30ae248a.png)
 
 ## Timers
+
+Interval Timers creates a timer and emits the second it's in when it's subscribed to
+
+```swift
+let sourceObs = Observable<Int>.interval(.milliseconds(Int(1000.0/Double(1))), scheduler: MainScheduler.instance).subscribe(onNext: { int in
+        print("SourceObservable interval timer has emitted: \(int)")
+})
+
+//PRINT ---
+//SourceObservable interval timer has emitted: 0
+//SourceObservable interval timer has emitted: 1
+//SourceObservable interval timer has emitted: 2
+//SourceObservable interval timer has emitted: 3
+//SourceObservable interval timer has emitted: 4
+//SourceObservable interval timer has emitted: 5
+//SourceObservable interval timer has emitted: 6
+//SourceObservable interval timer has emitted: 7
+//SourceObservable interval timer has emitted: 8
+```
+
+There are one shot timers that just runs once, You can specify a “due date” as the time that elapsed between the point of subscription and the first emitted value, The repeat period is optional. If you don’t specify one, the timer observable will emit once, then complete.
+
+```swift
+let sourceObservable = Observable<Int>
+  .timer(.seconds(3), scheduler: MainScheduler.instance)
+  .subscribe(onNext: { val in
+      print("SourceObservable special timer has emitted: \(val)")
+  })
+```
